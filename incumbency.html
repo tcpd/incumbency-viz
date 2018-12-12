@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)http://shivangitikekar.com/portfolio/karnataka_viz.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Shivangi Tikekar: Incumbency Visualisation</title>
+    <link href="./Shivangi Tikekar_ Incumbency Visualisation_files/css" rel="stylesheet">
+    <script type="text/javascript" src="./Shivangi Tikekar_ Incumbency Visualisation_files/randomColor.min.js"></script>
+    <script data-require="d3@4.0.0" data-semver="4.0.0" src="./Shivangi Tikekar_ Incumbency Visualisation_files/d3.v4.min.js"></script>
+    <script type="text/javascript" src="./Shivangi Tikekar_ Incumbency Visualisation_files/d3-legend.min.js"></script>
+    <script src="./Shivangi Tikekar_ Incumbency Visualisation_files/jquery.min.js" type="text/javascript"></script>
+<style>
+    div.tooltip {   
+          position: absolute;           
+          text-align: left;                           
+          padding: 8px;             
+          font: 1vw 'Source Sans Pro';
+          color: white;      
+          background: black;   
+          border: 0px; 
+          border-color: black;     
+          border-radius: 2px;           
+          pointer-events: none;      
+}
+
+      .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+
+        .axis text {
+            font-family: 'Source Sans Pro';
+            font-size: 20px;
+        }
+
+        .label {
+          font-family: 'Source Sans Pro';
+          font-size: 15px;
+        }
+
+        .d3-legend text {
+          font-family: 'Source Sans Pro';
+          font-size: 15px;
+        }
+
+        label, select {
+            display: inline-block;
+            width: 100px;
+        }
+
+        label {
+            position: relative;
+            top: -1.2em;
+            left: 5px;
+            font-family: 'Source Sans Pro';
+            text-align: center;
+        }
+
+        select {
+            margin: 1.5em 0 0 -100px;
+        }
+
+        body {
+          font-family: 'Source Sans Pro';
+        }
+
+        footer {
+          text-align: center;
+        }
+
+       .Site {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+
+      .content {
+        flex: 1;
+      }
+
+</style>
+  <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script></head>
+
+<body class="Site">
+<main class="content" align="center">
+    <div id="heading"><h2>Karnataka: 2013 Assembly Elections</h2></div>
+    <label for="states">State</label>
+    <select id="states">
+      <option value="Meghalaya">Meghalaya</option> 
+      <option value="Nagaland">Nagaland</option> 
+      <option value="Tripura">Tripura</option>
+      <option value="Karnataka" selected="selected">Karnataka</option>
+  </select>
+
+    <input type="text" id="search">
+
+    <label for="assemblies">Year</label>
+    <select id="assemblies">
+          
+           
+          
+          
+          
+          <option value="1983">1983</option> 
+          <option value="1985">1985</option>
+          
+          
+          <option value="1989">1989</option> 
+          
+          <option value="1994">1994</option>
+          
+          <option value="1999">1999</option> 
+          
+          <option value="2004">2004</option>
+          <option value="2008">2008</option>
+          <option value="2013" selected="selected">2013</option> 
+          
+  </select>   
+
+  <label for="numbers">Label</label>
+  <select id="numbers">
+      <option value="0" selected="selected">None</option> 
+      <option value="1">Times Won</option>
+      <option value="2">Times Contested</option> 
+  </select>
+
+  <label for="wonlost">Position</label>
+  <select id="wonlost">
+      <option value="0" selected="selected">All</option> 
+      <option value="1">Won</option>
+      <option value="2">Lost</option>
+  </select> 
+
+  <label for="turncoats">Candidates</label>
+  <select id="turncoats" width="30px"> 
+      <option value="2">All</option> 
+      <option value="1">Turncoats</option>
+      <option value="0" selected="selected">Previously Contested</option>
+  </select>
+
+<br><br>
+
+
+    <div id="symbolLegend" align="center">
+    <script>
+    var legendWidth = 150;
+
+    var svg = d3.select('#symbolLegend')
+      .append('svg')
+      .attr('height', '50px')
+      .attr('width', legendWidth)
+
+    //create symbol legend
+      circle = d3.symbol().type(d3.symbolCircle).size(180)();
+      square = d3.symbol().type(d3.symbolSquare).size(180)();
+
+      var symbolScale =  d3.scaleOrdinal()
+        .domain(['Won','Lost'])
+        .range([square, circle] );
+
+      svg.append("g")
+        .attr("class", "legendSymbol")
+        .attr("transform", "translate("+ (legendWidth/3) +", 10)");
+
+      var legendPath = d3.legendSymbol()
+        .scale(symbolScale)
+        .shapePadding(40)
+        .orient("horizontal")
+
+
+      svg.select(".legendSymbol")
+        .call(legendPath); 
+      </script><svg height="50px" width="150"><g class="legendSymbol" transform="translate(50, 10)"><g class="legendCells"><g class="cell" transform="translate( 0,0)"><path class="swatch" d="M-6.708203932499369,-6.708203932499369h13.416407864998739v13.416407864998739h-13.416407864998739Z"></path><text class="label" transform="translate( 0,
+              25.1387939453125)" style="text-anchor: middle;">Won</text></g><g class="cell" transform="translate( 55.138794898986816,0)"><path class="swatch" d="M7.569397566060481,0A7.569397566060481,7.569397566060481,0,1,1,-7.569397566060481,0A7.569397566060481,7.569397566060481,0,1,1,7.569397566060481,0"></path><text class="label" transform="translate( 0,
+              25.1387939453125)" style="text-anchor: middle;">Lost</text></g></g></g></svg>
+    </div>
+
+<div id="chart"></div>
+
+    <script>
+
+    function getOrdinalNum(n) {
+          return n + (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : '');
+        }
+
+    var stateGraph = function(state, year) {
+
+    var url = 'http://shivangitikekar.com/portfolio/json/' + state + '_incumbency.json';
+    
+    var mydata;
+    d3.json(url, function(data) {
+      mydata = data;
+
+    //get list of all parties
+            var allParties = []
+            for (i = 0; i < mydata.length; i++) {
+              if (!(allParties.includes(mydata[i].Party))) {
+                allParties.push(mydata[i].Party);
+              }
+              if (!(allParties.includes(mydata[i].Last_party))) {
+                allParties.push(mydata[i].Last_party);
+              }
+            }
+
+            // //generate colour range for parties
+            // colours = [
+            //   '#FFCDD2',
+            //   '#E57373',
+            //   '#F44336',
+            //   '#C62828',
+            //   '#FF5252',
+            //   '#F8BBD0',
+            //   '#F48FB1',
+            //   '#F06292',
+            //   '#EC407A',
+            //   '#C2185B',
+            //   '#880E4F',
+            //   '#BA68C8',
+            //   '#9C27B0',
+            //   '#7B1FA2',
+            //   '#4A148C',
+            //   '#673AB7',
+            //   '#4527A0',
+            //   '#311B92',
+            //   '#7986CB',
+            //   '#3F51B5',
+            //   '#283593',
+            //   '#1A237E',
+            //   '#304FFE',
+            //   '#42A5F5',
+            //   '#1565C0',
+            //   '#0D47A1',
+            //   '#4FC3F7',
+            //   '#00ACC1',
+            //   '#00838F',
+            //   '#006064',
+            //   '#26A69A',
+            //   '#00796B',
+            //   '#004D40',
+            //   '#4CAF50',
+            //   '#1B5E20',
+            //   '#558B2F',
+            //   '#B2FF59',
+            //   '#D4E157',
+            //   '#AFB42B',
+            //   '#827717',
+            //   '#F57F17',
+            //   '#FFEB3B',
+            //   '#FFD54F',
+            //   '#FFCC80',
+            //   '#A1887F',
+            //   '#795548',
+            //   '#5D4037',
+            //   '#607D8B'
+            // ]
+            
+            // function shuffle(a) {
+            //     var j, x, i;
+            //     for (i = a.length - 1; i > 0; i--) {
+            //         j = Math.floor(Math.random() * (i + 1));
+            //         x = a[i];
+            //         a[i] = a[j];
+            //         a[j] = x;
+            //     }
+            // }
+
+            // shuffle(colours);
+            // console.log(colours);
+            // console.log(allParties.length);
+            // colourRange = colours.slice(0, allParties.length);
+
+            // //dict of party and colour
+            // var partyColours = {}
+            // for (i = 0; i < allParties.length; i++) {
+            //     partyColours[allParties[i]] = colourRange[i];
+            // }
+
+            //generate colour range for parties
+            var colourRange = randomColor({
+               count: allParties.length,
+               luminosity: 'dark',
+               format: 'rgb' // e.g. 'rgb(225,200,20)' 
+            });
+
+            //dict of party and colour
+            var partyColours = {}
+            for (i = 0; i < allParties.length; i++) {
+                partyColours[allParties[i]] = colourRange[i];
+            }
+
+            console.log(partyColours);
+
+            partyColours['BJP'] = '#ff9933'
+            partyColours['INC'] = '#138808'
+            partyColours['INC(I)'] = '#138808'
+            partyColours['IND'] = '#008080'
+            partyColours['JD'] = '#ff005c'
+            partyColours['AIRJP'] = '#009999'
+            partyColours['SP'] = '#990000'
+            partyColours['JD(U)'] = '#ff005c'
+            partyColours['BSP'] = '#99003d'
+            partyColours['NCP'] = '#ff0000'
+            partyColours['HSPDP'] = '#ffcc00'
+            partyColours['None'] = '#707070'
+            partyColours['JP'] = '#536896'
+            partyColours['JNP'] = '#536896'
+            partyColours['JNP(JP)'] = '#536896'
+
+
+            var partyNames = {'INC': 'Indian National Congress', 'KJP': 'Karnataka Janata Paksha', 'IND': 'Independent', 'CPI': 'Communist Party of India', 'JD(S)': 'Janata Dal (Secular)', 'NPF': 'Naga People\'s Front', 'SP': 'Samajwadi Party', 'RMP': 'Revolutionary Marxist Party', 'INC(I)': 'Indian National Congress (I)', 'JNP(JP)': 'Janata Party', 'BJP': 'Bharatiya Janata Party', 'JNP(SC)': 'Janata Party (SC)', 'JNP': 'Janata Party', 'JD': 'Janata Dal', 'AIRJP': 'All India Rashtriya Janata Party', 'JD(U)': 'Janata Dal United', 'NCP': 'National Communist Party', 'None': 'None', 'Other': 'Other', 'BSRCP': 'Badagara Shramika Raitala Congress', 'JP': 'Janata Party', 'CPM': 'Communist Party of India (Marxist)', 'UDP': 'United Democratic Party', 'HSPDP': 'Hill State People\'s Democratic Party', 'NPP': 'National People\'s Party'}
+
+        var generateGraph = function(mydata, year, nums, wonlost, turncoats, searchTerm) {
+
+            var div = d3.select("body").append("div")   
+                                    .attr("class", "tooltip")               
+                                    .style("opacity", 0);
+
+            var topParties = []
+
+            //get current assembly entries
+            var currentAssembly = mydata.filter(function(i) {
+              return i.Year === year;
+            });
+
+            if (wonlost == 1) {
+              var currentAssembly = currentAssembly.filter(function(i) {
+                return i.Position === 1;
+              });
+            }
+
+            if (wonlost == 2) {
+              var currentAssembly = currentAssembly.filter(function(i) {
+                return i.Position > 1;
+              });
+            }
+
+            if (turncoats == 1 ) {
+              var currentAssembly = currentAssembly.filter(function(i) {
+                return i.Turncoat === 'Yes';
+              });
+            }
+
+            if (turncoats == 0) {
+              var currentAssembly = currentAssembly.filter(function(i) {
+                return i.Contested > 1;
+              });
+            }
+
+            //currentAssembly = currentAssembly.filter(function(e){return e});
+
+            //get current assembly parties
+            var lookup = {};
+            var items = currentAssembly;
+            var parties = [];
+
+            for (var item, i = 0; item = items[i++];) {
+              var Party = item.Party;
+
+              if (!(Party in lookup)) {
+                lookup[Party] = 1;
+                parties.push(Party);
+              }
+            }
+
+            //get current assembly entries by party, put last = current in front
+            var partywise = []
+            for (i = 0; i < parties.length; i++) {
+              var currentParty = parties[i];
+              var currentEntries = currentAssembly.filter(function(i) {
+                  return (i.Party === currentParty && i.Last_party === currentParty);
+            });
+              var currentOther = currentAssembly.filter(function(i) {
+                  return (i.Party === currentParty && i.Last_party !== currentParty);
+            });
+              currentEntries.push.apply(currentEntries, currentOther);
+              partywise.push(currentEntries);
+            }
+
+            //get important parties
+            var xMax = 0;
+            var numCand = 0;
+            for (k = 0; k < partywise.length; k++) {
+              numCand += partywise[k].length;
+              if (partywise[k].length > xMax) {
+                xMax = partywise[k].length;
+              }
+            }
+
+            //move entries to other
+            var inclusionFactor = numCand*0.05;
+            var otherEntries = []
+            var partywiseFiltered = []
+            for (k = 0; k < partywise.length; k++) {
+              if (partywise[k].length >= inclusionFactor) {
+                if (topParties.indexOf(partywise[k][0].Party) < 0) {
+                  topParties.push(partywise[k][0].Party);}
+                partywiseFiltered.push(partywise[k]);
+              }
+              if (partywise[k].length < inclusionFactor) {
+                otherEntries.push.apply(otherEntries, partywise[k]);
+              }
+            }
+
+            partywiseFiltered.push(otherEntries);
+            topParties.sort();
+            if (otherEntries.length > 0) {
+              topParties.push('Other');
+            }
+            
+
+            //sort 'Other' by party
+            partywiseFiltered[partywiseFiltered.length-1].sort(function(a,b) {return (a.Last_party > b.Last_party) ? 1 : ((b.Last_party > a.Last_party) ? -1 : 0);} ); 
+            partywiseFiltered[partywiseFiltered.length-1].forEach(function(v, i) {
+              if (v.Last_party == 'None') {
+                partywiseFiltered[partywiseFiltered.length-1].push(partywiseFiltered[partywiseFiltered.length-1][i]);
+                partywiseFiltered[partywiseFiltered.length-1].splice(i, 1);
+              }
+            })
+            partywiseFiltered[partywiseFiltered.length-1].forEach(function(v, i) {
+                if (v.Position === 1) {
+                    var a = partywiseFiltered[partywiseFiltered.length-1].splice(i,1);   // removes the item
+                    partywiseFiltered[partywiseFiltered.length-1].unshift(a[0]);         // adds it back to the beginning
+                }
+            })
+
+            //get colour range for legend parties
+            var legendColours = []
+            for (i = 0; i < topParties.length; i++) {
+              legendColours.push(partyColours[topParties[i]])
+            }
+
+            //declare colour scale
+            var colourScale = d3.scaleOrdinal()
+              .domain(topParties)
+              .range(legendColours);
+         
+    var xMax = 0;
+    for (k = 0; k < partywiseFiltered.length; k++) {
+      if (partywiseFiltered[k].length > xMax) {
+        xMax = partywiseFiltered[k].length;
+      }
+    }
+
+    var symbolSize = 180
+    var rowMax = 5
+    var topMargin = 50
+    var squareDim = 12, // pixel dimensions of square
+        // width = xMax * 17; // horizontal
+        // height = partywise.length * (squareDim + 2); // horizontal
+    width = (rowMax + 1) * partywiseFiltered.length * (Math.sqrt(symbolSize) + 3); // horizontal
+    var height = topMargin + (xMax/rowMax + 2) * (Math.sqrt(symbolSize) + 5);
+    //var height = 1000 //vertical
+    
+        
+    var svg = d3.select('#chart')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
+
+    //generate shapes
+     col = -rowMax
+     row = -1
+     for (k=0; k<partywiseFiltered.length; k++) {
+      svg.selectAll('u')
+        .data(partywiseFiltered[k])
+        .enter()
+        .append('path')
+        .attr('d', d3.symbol().type(function(d) {
+          if (d.Position == 1) {
+            return d3.symbolSquare;
+          }
+          else {
+            return d3.symbolCircle;
+          }
+        })
+        .size(function(d, i) {
+          return symbolSize;
+        }))
+        .attr("transform", function(d, i) {
+          if (i == 0) {
+          col += rowMax + 1;
+        }
+          var x = ((i % rowMax) + col) * (symbolSize / 11);
+          if (i % rowMax == 0 && i != 0) {
+          row += 1;
+        }
+          if (i == 0) {
+            row = 0;
+          }
+          var y = (row + 3) * (symbolSize/10);
+        return "translate(" + x + "," + y + ")"
+        })
+        .attr("currentParty", function(d, i) {
+            if (typeof(d) === 'undefined') {
+                return 0;
+            }
+            else if (d.Party === 'Other') {
+              return d.Party;
+            }
+          else {
+              return (partyNames[d.Party]);}
+          })
+        .attr("lastParty", function(d, i) {
+            if (typeof(d) === 'undefined') {
+                return 0;
+            }
+            if (typeof(d.Last_party) === 'undefined') {
+              return ('None');
+            }
+            else if (d.Last_party === 'Other') {
+              return d.Last_party;
+            }
+            else {
+                return partyNames[d.Last_party];}
+            })
+        .attr("name", function(d, i) {
+            if (typeof(d) === 'undefined') {
+                return 0;
+            }
+            else {
+                return (d.Candidate);}
+            })
+        .attr("acName", function(d, i){
+          return d.Constituency_Name;
+        })
+        .attr("position", function(d, i){
+          return d.Position;
+        })
+        .style("fill", function(d, i) {
+            if (typeof(d) === 'undefined') {
+                return 0;
+            }
+            if (typeof(d.Last_party) === 'undefined') {
+                return partyColours['None'];
+            }
+            else {
+                return partyColours[d.Last_party];
+            }
+          })
+        .on("mouseover", function(d, i) {
+                                d3.select(this)
+                                  .transition()
+                                  .duration(200)
+                                  //.style('opacity', 0.5)
+                                div.transition()    
+                                    .duration(200)    
+                                    .style("opacity", .9); 
+                                    div .html(function() {
+                                            var candHistory = mydata.filter(function(k) {
+                                              return (k.pid == d.pid && d.Year > k.Year);
+                                            });
+
+                                            candHistory.sort(function(a,b) {return b.Year - a.Year});
+                                            var tooltipText = d.Candidate + "<hr>" + d.Constituency_Name + ", " + d.Year + ", " + d.Party + ", #" + d.Position
+                                            candHistory.forEach(function(k) {
+                                              tooltipText += "<br/>" + k.Constituency_Name + ", " + k.Year + ", " + k.Party + ", #" + k.Position
+                                            })
+                                            return tooltipText;
+                                        })
+                                    .style("left", (d3.event.pageX) + "px")   
+                                    .style("top", (d3.event.pageY - 28) + "px");  
+                                })          
+                            .on("mouseout", function(d) { 
+                                d3.select(this)
+                                  .transition()
+                                  .duration(200)
+                                  //.style('opacity', 1) 
+                                div.transition()    
+                                    .duration(500)    
+                                    .style("opacity", 0); 
+                            });
+        }
+
+        //generate search shapes
+        var pattern = new RegExp(searchTerm, 'i')
+        col = -rowMax
+       row = -1
+       for (k=0; k<partywiseFiltered.length; k++) {
+        svg.selectAll('u')
+          .data(partywiseFiltered[k])
+          .enter()
+          .append('path')
+          .attr('d', d3.symbol().type(function(d) {
+            if (d.Position == 1) {
+              return d3.symbolSquare;
+            }
+            else {
+              return d3.symbolCircle;
+            }
+          })
+          .size(function(d, i) {
+            return symbolSize*0.6;
+          }))
+          .attr("transform", function(d, i) {
+            if (i == 0) {
+            col += rowMax + 1;
+          }
+            var x = ((i % rowMax) + col) * (symbolSize / 11);
+            if (i % rowMax == 0 && i != 0) {
+            row += 1;
+          }
+            if (i == 0) {
+              row = 0;
+            }
+            var y = (row + 3) * (symbolSize/10);
+          return "translate(" + x + "," + y + ")"
+          })
+          .attr("currentParty", function(d, i) {
+              if (typeof(d) === 'undefined') {
+                  return 0;
+              }
+              else if (d.Party === 'Other') {
+                return d.Party;
+              }
+            else {
+                return (partyNames[d.Party]);}
+            })
+          .attr("lastParty", function(d, i) {
+              if (typeof(d) === 'undefined') {
+                  return 0;
+              }
+              if (typeof(d.Last_party) === 'undefined') {
+                return ('None');
+              }
+              else if (d.Last_party === 'Other') {
+                return d.Last_party;
+              }
+              else {
+                  return partyNames[d.Last_party];}
+              })
+          .style("fill", function(d, i) {
+              if (typeof(d) === 'undefined') {
+                  return 0;
+              }
+              if (typeof(d.Last_party) === 'undefined') {
+                  return partyColours['None'];
+              }
+              if (!pattern.test(d.Candidate) && !pattern.test(d.Constituency_Name)) {
+                return '#ffffff'
+              }
+              else {
+                  return partyColours[d.Last_party];
+              }
+            })
+          .on("mouseover", function(d, i) {
+                                  d3.select(this)
+                                    .transition()
+                                    .duration(200)
+                                  div.transition()    
+                                      .duration(200)    
+                                      .style("opacity", .9);
+                                      div .html(function() {
+                                            var candHistory = mydata.filter(function(k) {
+                                              return (k.pid == d.pid && d.Year > k.Year);
+                                            });
+                                            candHistory.sort(function(a,b) {return b.Year - a.Year});
+                                            var tooltipText = d.Candidate + "<hr>" + d.Constituency_Name + ", " + d.Year + ", " + d.Party + ", #" + d.Position
+                                            candHistory.forEach(function(k) {
+                                              tooltipText += "<br/>" + k.Constituency_Name + ", " + k.Year + ", " + k.Party + ", #" + k.Position
+                                            })
+                                            return tooltipText;
+                                        })
+                                      .style("left", (d3.event.pageX) + "px")   
+                                      .style("top", (d3.event.pageY - 28) + "px");  
+                                  })          
+                              .on("mouseout", function(d) { 
+                                  d3.select(this)
+                                    .transition()
+                                    .duration(200)
+                                    //.style('opacity', 1) 
+                                  div.transition()    
+                                      .duration(500)    
+                                      .style('opacity', 0); 
+                              });
+          }
+
+        //generate text
+          if (nums > 0) {
+           col = -rowMax
+           row = -1
+           letterArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
+           for (j = 0; j < partywiseFiltered.length; j++) {
+            svg.selectAll(letterArray[j])
+              .data(partywiseFiltered[j])
+              .enter()
+              .append('text')
+              .attr("x", function(d, i) {
+                if (i == 0) {
+                col += rowMax + 1;
+              }
+              if (nums == 2) {
+                if (d.Contested > 9) {
+                  return ((i % rowMax) + col) * (symbolSize / 11) - 7;
+                }
+                else {
+                  return ((i % rowMax) + col) * (symbolSize / 11) - 4;          
+                }
+              }
+              if (nums == 1) {
+                if (d.No_Mandates > 9) {
+                  return ((i % rowMax) + col) * (symbolSize / 11) - 7;
+                }
+                else {
+                  return ((i % rowMax) + col) * (symbolSize / 11) - 3;          
+                }
+              }
+
+              })
+              .attr("y", function(d, i) {
+                if (i % rowMax == 0 && i != 0) {
+                row += 1;
+              }
+                if (i == 0) {
+                  row = 0;
+                }
+                return (row + 3) * (symbolSize/10) + 4;
+              })
+              .text(function(d) {
+                if (nums == 2) {
+                  if (d.Contested > 1) {
+                    return d.Contested;
+                  }
+                }
+                if (nums == 1) {
+                  if (d.No_Mandates > 0) {
+                    return d.No_Mandates;
+                  }
+                }
+              })
+              .attr("currentParty", function(d, i) {
+                  if (typeof(d) === 'undefined') {
+                      return 0;
+                  }
+                  else if (d.Party === 'Other') {
+                    return d.Party;
+                  }
+                else {
+                    return (partyNames[d.Party]);}
+                })
+              .attr("lastParty", function(d, i) {
+                  if (typeof(d) === 'undefined') {
+                      return 0;
+                  }
+                  if (typeof(d.Last_party) === 'undefined') {
+                    return ('None');
+                  }
+                  else if (d.Last_party === 'Other') {
+                    return d.Last_party;
+                  }
+                  else {
+                      return partyNames[d.Last_party];}
+                  })
+              .attr("name", function(d, i) {
+                  if (typeof(d) === 'undefined') {
+                      return 0;
+                  }
+                  else {
+                      return (d.Candidate);}
+                  })
+              .attr("acName", function(d, i){
+                return d.Constituency_Name;
+              })
+              .attr("position", function(d, i){
+                return d.Position;
+              })
+              .style("fill", 'white')
+              .style("font-family", 'Montserrat')
+              .style("font-size", function(d) {
+                if (nums == 2) {
+                  if (d.Contested > 9) {
+                    return '10px';
+                  }
+                  else {
+                    return '11px';
+                  }
+                }
+                if (nums == 1) {
+                  if (d.No_Mandates > 9) {
+                    return '10px';
+                  }
+                  else {
+                    return '11px';
+                  }
+                }
+              })
+              .on("mouseover", function(d, i) {
+                                      div.transition()    
+                                          .duration(200)    
+                                          .style("opacity", .9); 
+                                          div .html(function() {
+                                            var candHistory = mydata.filter(function(k) {
+                                              return (k.pid == d.pid && d.Year > k.Year);
+                                            });
+                                            candHistory.sort(function(a,b) {return b.Year - a.Year});
+                                            var tooltipText = d.Candidate + "<hr>" + d.Constituency_Name + ", " + d.Year + ", " + d.Party + ", #" + d.Position
+                                            candHistory.forEach(function(k) {
+                                              tooltipText += "<br/>" + k.Constituency_Name + ", " + k.Year + ", " + k.Party + ", #" + k.Position
+                                            })
+                                            return tooltipText;
+                                        }) 
+                                          .style("left", (d3.event.pageX) + "px")   
+                                          .style("top", (d3.event.pageY - 28) + "px");  
+                                      })          
+                                  .on("mouseout", function(d) { 
+                                      div.transition()    
+                                          .duration(500)    
+                                          .style("opacity", 0); 
+                                  });
+      }
+    }
+
+      //create legend
+            svg.append("g")
+              .attr("class", "legendOrdinal")
+              .attr("transform", "translate(" + width/(partywiseFiltered.length*2.5) +"," + 5 + ")");
+
+            var legendOrdinal = d3.legendColor()
+              .orient('horizontal')
+              //.shape("path", d3.symbol().type(d3.symbolTriangle).size(100)())
+              .shapeWidth(25)
+              .shapePadding(width/(partywiseFiltered.length*1.35))
+              .scale(colourScale);
+
+            svg.select(".legendOrdinal")
+                .call(legendOrdinal);
+  
+    }
+
+        generateGraph(mydata, year, 0, 0, 0, '');
+
+      // handle on click event
+        d3.select('#assemblies')
+          .on('change', function() {
+            var year = eval(d3.select(this).property('value'));
+            var nums = eval(d3.select('#numbers').property('value'));
+            var wonlost = eval(d3.select('#wonlost').property('value'));
+            var turncoats = eval(d3.select('#turncoats').property('value'));
+            var searchTerm = d3.select('#search').property('value');
+            var state = d3.select('#states').property('value');
+            document.getElementById('heading').innerHTML = '<h2>' + state + ': ' + year +' Assembly Elections</h2>'
+            d3.selectAll("#chart > svg").transition().duration(0).style("opacity", 0).remove();
+            generateGraph(mydata, year, nums, wonlost,turncoats,searchTerm);
+        });
+
+        d3.select('#numbers')
+          .on('change', function() {
+            var nums = eval(d3.select(this).property('value'));
+            var year = eval(d3.select('#assemblies').property('value'));
+            var turncoats = eval(d3.select('#turncoats').property('value'));
+            var wonlost = eval(d3.select('#wonlost').property('value'));
+            var searchTerm = d3.select('#search').property('value');
+            d3.selectAll("svg > text").transition().duration(400).style("opacity", 0).remove();
+            d3.selectAll("#chart > svg").transition().duration(0).style("opacity", 0).remove();
+            generateGraph(mydata, year, nums, wonlost,turncoats,searchTerm);
+        });
+
+        d3.select('#wonlost')
+          .on('change', function() {
+            var nums = eval(d3.select('#numbers').property('value'));
+            var year = eval(d3.select('#assemblies').property('value'));
+            var turncoats = eval(d3.select('#turncoats').property('value'));
+            var wonlost = eval(d3.select(this).property('value'));
+            var searchTerm = d3.select('#search').property('value');
+            d3.selectAll("#chart > svg").transition().duration(0).style("opacity", 0).remove();
+            generateGraph(mydata, year, nums, wonlost,turncoats,searchTerm);
+        });
+
+        d3.select('#turncoats')
+          .on('change', function() {
+            var nums = eval(d3.select('#numbers').property('value'));
+            var year = eval(d3.select('#assemblies').property('value'));
+            var wonlost = eval(d3.select('#wonlost').property('value'));
+            var turncoats = eval(d3.select(this).property('value'));
+            var searchTerm = d3.select('#search').property('value');
+            d3.selectAll("#chart > svg").transition().duration(0).style("opacity", 0).remove();
+            generateGraph(mydata, year, nums, wonlost, turncoats, searchTerm);
+        });
+
+        d3.select('#search')
+          .on('keyup', function() {
+            var searchTerm = d3.select(this).property('value');
+            var nums = eval(d3.select('#numbers').property('value'));
+            var year = eval(d3.select('#assemblies').property('value'));
+            var turncoats = eval(d3.select('#turncoats').property('value'));
+            var wonlost = eval(d3.select('#wonlost').property('value'));
+            d3.selectAll("#chart > svg").transition().duration(0).style("opacity", 0).remove();
+            generateGraph(mydata, year, nums, wonlost,turncoats,searchTerm);
+          })
+          
+    });
+};
+
+        d3.select('#states')
+          .on('change', function() {
+            var state = d3.select(this).property('value');
+            var year = 2013;
+            document.getElementById('heading').innerHTML = '<h2>' + state + ': 2013 Assembly Elections</h2>'
+            d3.selectAll('#chart > p').transition().duration(0).style("opacity", 0).remove();
+            d3.selectAll("#chart > svg").transition().duration(0).style("opacity", 0).remove();
+            stateGraph(state, year);
+            console.log(year);
+            $("#assemblies").val(year);
+            console.log(year);
+        });
+
+          var pairs = [
+              ['Karnataka', 1983],
+              ['Karnataka', 1985],
+              ['Karnataka', 1989],
+              ['Karnataka', 1994],
+              ['Karnataka', 1999],
+              ['Karnataka', 2004],
+              ['Karnataka', 2008],
+              ['Karnataka', 2013],
+              ['Meghalaya', 1978],
+              ['Meghalaya', 1983],
+              ['Meghalaya', 1988],
+              ['Meghalaya', 1993],
+              ['Meghalaya', 1998],
+              ['Meghalaya', 2003],
+              ['Meghalaya', 2008],
+              ['Meghalaya', 2013],
+              ['Meghalaya', 2018],   
+              ['Nagaland', 1969],
+              ['Nagaland', 1974],
+              ['Nagaland', 1977],
+              ['Nagaland', 1982],
+              ['Nagaland', 1987],
+              ['Nagaland', 1989],
+              ['Nagaland', 1993],
+              ['Nagaland', 1998],
+              ['Nagaland', 2003],
+              ['Nagaland', 2008],
+              ['Nagaland', 2013],
+              ['Nagaland', 2018],
+              ['Tripura', 1972],
+              ['Tripura', 1977],
+              ['Tripura', 1983],
+              ['Tripura', 1988],
+              ['Tripura', 1993],
+              ['Tripura', 1998],
+              ['Tripura', 2003],
+              ['Tripura', 2008],
+              ['Tripura', 2013],
+              ['Tripura', 2018],         
+          ];
+
+          var assemblies = $('#assemblies').html();
+          $('#states', function() {
+              $('#assemblies').html(assemblies);
+              $('#assemblies option').each(function() {
+                  var rm = true;
+                  for (var i in pairs) {
+                      if ($(this).val() == pairs[i][1] && $('#states').val() == pairs[i][0]) rm = false;
+                  }
+                  if (rm) $(this).remove();
+              });
+          });
+
+          $('#assemblies').html();
+          $('#states').change(function() {
+              $('#assemblies').html(assemblies);
+              $('#assemblies option').each(function() {
+                  var rm = true;
+                  for (var i in pairs) {
+                      if ($(this).val() == pairs[i][1] && $('#states').val() == pairs[i][0]) rm = false;
+                  }
+                  if (rm) $(this).remove();
+              });
+          });
+
+
+
+      stateGraph('Karnataka', 2013);
+
+
+
+    </script>
+</main>
+    <footer class="footer">Created by <a href="http://shivangitikekar.com/">Shivangi Tikekar</a> for the <a href="http://tcpd.ashoka.edu.in/">Trivedi Centre for Political Data</a>.</footer>
+    
+  
+
+<div class="sailboat-parts"><div id="collapse-dock-btn" class="sailboat-float round-corner collapse-btn"><img src="chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/left-arrow.svg" id="collapse-img" style="transform: rotate(180deg); transition: transform 400ms ease 0s;"></div><div class="sailboat-float sailboat-dock" id="sailboat-dock" style="display: none; height: 30px; margin-bottom: 0px;"><div id="tasks-area" class="tasks-area"><div class="task-btn" id="0"><div class="open-task-btn non-sortable default-task-btn" data-toggle="tooltip">Default</div><div class="add-to-task-btn" data-toggle="tooltip" title="Add current tab to this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/plus.svg&quot;);"></div><div class="close-task-btn" data-toggle="tooltip" title="Close this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/close.svg&quot;);"></div></div><div class="task-btn" id="1"><div class="open-task-btn" data-toggle="tooltip">epadd</div><div class="add-to-task-btn" data-toggle="tooltip" title="Add current tab to this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/plus.svg&quot;);"></div><div class="close-task-btn" data-toggle="tooltip" title="Close this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/close.svg&quot;);"></div></div><div class="task-btn" id="2"><div class="open-task-btn" data-toggle="tooltip">PuzzleMe</div><div class="add-to-task-btn" data-toggle="tooltip" title="Add current tab to this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/plus.svg&quot;);"></div><div class="close-task-btn" data-toggle="tooltip" title="Close this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/close.svg&quot;);"></div></div><div class="task-btn" id="3"><div class="current-task" data-toggle="tooltip">DDJ</div></div><div class="task-btn" id="4"><div class="open-task-btn" data-toggle="tooltip">sse</div><div class="add-to-task-btn" data-toggle="tooltip" title="Add current tab to this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/plus.svg&quot;);"></div><div class="close-task-btn" data-toggle="tooltip" title="Close this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/close.svg&quot;);"></div></div><div class="task-btn" id="5"><div class="open-task-btn" data-toggle="tooltip">DL</div><div class="add-to-task-btn" data-toggle="tooltip" title="Add current tab to this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/plus.svg&quot;);"></div><div class="close-task-btn" data-toggle="tooltip" title="Close this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/close.svg&quot;);"></div></div><div class="task-btn" id="6"><div class="open-task-btn" data-toggle="tooltip">js</div><div class="add-to-task-btn" data-toggle="tooltip" title="Add current tab to this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/plus.svg&quot;);"></div><div class="close-task-btn" data-toggle="tooltip" title="Close this task" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/close.svg&quot;);"></div></div></div><div id="sailboat-like-btn" class="sailboat-like-btn non-sortable" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/archive-search.svg&quot;);"></div><div class="non-sortable" id="new-task-btn" style="background-image: url(&quot;chrome-extension://pgbbhnjldmffhkecfiaekonjjjghpdab/images/plus-filled.svg&quot;);"></div></div></div><input type="search" autofocus="autofocus" autocomplete="on" class="sailboat-float input-bar form-control round-corner" style="display: none;" id="new-task-input" placeholder="Enter task name"><div class="tooltip" style="opacity: 0; left: 365px; top: 211px;">JAGADISH SHETTAR<hr>HUBLI-DHARWAD-CENTRAL, 2013, BJP, #1<br>HUBLI-DHARWAD-CENTRAL, 2008, BJP, #1<br>HUBLI RURAL, 2004, BJP, #1<br>HUBLI RURAL, 1999, BJP, #1<br>HUBLI RURAL, 1994, BJP, #1</div></body></html>
